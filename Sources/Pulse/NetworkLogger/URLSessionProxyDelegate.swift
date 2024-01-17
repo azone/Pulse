@@ -104,7 +104,7 @@ public final class URLSessionProxyDelegate: NSObject, URLSessionTaskDelegate, UR
 
 private extension URLSession {
     @objc class func pulse_init(configuration: URLSessionConfiguration, delegate: URLSessionDelegate?, delegateQueue: OperationQueue?) -> URLSession {
-        guard !String(describing: delegate).contains("GTMSessionFetcher") else {
+        if let delegate, NSStringFromClass(type(of: delegate)).contains("GTMSessionFetcher") {
             return self.pulse_init(configuration: configuration, delegate: delegate, delegateQueue: delegateQueue)
         }
         let delegate = URLSessionProxyDelegate(logger: sharedLogger, delegate: delegate)
